@@ -9,9 +9,10 @@
 
 
 import random
+from correct_ending_of_numerals import correct_ending_of_numerals as cor_num
 
-def is_valid(user_num):
-    # Функция проверяет число ли ввел пользователь и соблюдение диапазона
+def is_int_num(user_num):
+    # Функция проверяет число ли ввел пользователь
     if user_num.isdigit() and left_limit <= int(user_num) <= right_limit:
         return True
     else:
@@ -45,7 +46,7 @@ reference_try = min_num_try(left_limit, right_limit)
 while True:
     print()
     user_num = input('Как вы думаете, какое это число? ')
-    if not is_valid(user_num):
+    if not is_int_num(user_num):
         print(f'А может быть все-таки введем целое число от {left_limit} до {right_limit}?')
         continue
     user_num = int(user_num)
@@ -55,12 +56,12 @@ while True:
         print('**********************//////!!!!!!**********************')
         print(f'Вы угадали, поздравляю!!! Я загадывал именно число {random_num}.')
         if count_try <= reference_try:
-            print(f'Вам для этого потребовалось {count_try} попыток и это идеальный результат,')
-            print(f'т.к. минимальный гарантированный результат для победы - {reference_try} попыток')
+            print(f'Вам для этого потребовалось {count_try} {cor_num(count_try, 'попытка')} и это идеальный результат,')
+            print(f'т.к. минимальный гарантированный результат для победы - {reference_try} {cor_num(count_try, 'попытка')}')
         else:
-            print(f'Вам для этого потребовалось {count_try} попыток.')
+            print(f'Вам для этого потребовалось {count_try} {cor_num(count_try, 'попытка')}.')
             print('А вы знали, что минимальный гарантированный результат для угадывания числа')
-            print(f'в диапазоне от {left_limit} до {right_limit} это {reference_try} попыток?')
+            print(f'в диапазоне от {left_limit} до {right_limit} это {reference_try} {cor_num(count_try, 'попытка')}?')
         break
     elif user_num < random_num:
         print('Ваше число меньше загаданного, попробуйте еще разок')
