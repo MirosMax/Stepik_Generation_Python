@@ -10,12 +10,13 @@
 '''
 
 import random
+import words_for_game_Hangman as wh
 
 
 # функция получение случайного слова из списка
 def get_word():
-    word = random.choice(word_list)
-    return word.upper()
+    word, question = random.choice(list(wh.words_questions.items()))
+    return word.upper(), question
 
 
 # функция получения текущего состояния
@@ -128,7 +129,7 @@ def is_letter_in_hidden_word(w, word, word_completion):
 
 
 # функция основного процесса игры
-def play(word):
+def play(word, question):
     print('\nДавайте играть в угадайку слов!')
     word_completion = '_' * len(word)   # строка, содержащая символы _ на каждую букву задуманного слова
     guessed = False                     # сигнальная метка о выигрыше
@@ -136,31 +137,31 @@ def play(word):
     guessed_words = []                  # список уже названных слов
     tries = 6                           # количество попыток
     print(display_hangman(tries))
-    print(f'Я загадал слово на русском языке и оно состоит из {len(word)} букв')
-    print(f'У вас {tries} попыток, чтобы его отгадать. Поехали!')
-    print(word)
+    print(f'Я загадал слово и оно состоит из {len(word)} букв')
+    print(f'Так называется - "{question}". Что это?\n')
+    print(f'У вас есть {tries} попыток, чтобы отгадать. Поехали!')
     print(word_completion)
     while tries > 0:
         w = input(f'\nПопытка № {abs(tries - 7)}. Введите букву или слово целиком: ').upper()
         if is_correct_input(w) and check_repeat(w, guessed_letters, guessed_words):
-            if w == word:
+            if w == word:  # если угадали слово целиком
                 guessed = True
                 break
-            elif len(w) == 1:
+            elif len(w) == 1:  # если названа буква
                 tries -= 1
                 guessed_letters.append(w)
                 word_completion = is_letter_in_hidden_word(w, word, word_completion)
                 print(display_hangman(tries))
                 if w in word_completion:
-                    print(f'Буква "{w}" есть в этом слове!\n{word_completion}')
+                    print(f'Буква "{w}" есть в этом слове!\nПовторю вопрос - "{question}"\n{word_completion}')
                 else:
-                    print(f'Такой буквы нет\n{word_completion}')
+                    print(f'Такой буквы нет\nПовторю вопрос - "{question}"\n{word_completion}')
                 print(f'Осталось попыток: {tries}')
-            elif len(w) > 1:
+            elif len(w) > 1:  # если названо неверное слово
                 tries -= 1
                 guessed_words.append(w)
                 print(display_hangman(tries))
-                print(f'"{w}" - неверное слово\n{word_completion}')
+                print(f'"{w}" - неверное слово\nПовторю вопрос - "{question}"\n{word_completion}')
                 print(f'Осталось попыток: {tries}')
     if guessed:
         print(f'Поздравляю, вы угадали слово "{word}"! Вы победили!')
@@ -168,17 +169,10 @@ def play(word):
         print(f'Вы не смогли угадать слово "{word}". В следующий раз обязательно повезет!')
 
 
-word_list = [
-    'клюква', 'носорог', 'телефон', 'гиря', 'осел', 'экипаж', 'бункер', 'каньон', 'мотылек', 'акционер', 'анкета',
-    'факс', 'айболит', 'еврей', 'брелок', 'зерно', 'капельница', 'квартет', 'шимпанзе', 'фонтан', 'артист', 'карьер',
-    'день', 'жасмин', 'бланк', 'ковер', 'объявление', 'ландыш', 'мыльница', 'табак', 'витамин', 'лицо', 'империя',
-    'велосипед', 'чернила', 'арматура', 'перекресток', 'коллега', 'брокер', 'табло', 'мешок', 'автобус', 'свинья',
-    'кетчуп', 'комната', 'камера', 'лепесток', 'палата', 'небо', 'творог', 'корзина', 'майонез', 'носок', 'диван',
-    'дельфин', 'адмирал', 'ежевика', 'бревно', 'метка', 'официант', 'ворона', 'джунгли', 'лифчик', 'белье', 'дикобраз',
-    'залог'
-]
+# запуск игры
+play(*get_word())
 
-play(get_word())
-repeat_play = input('Сыграем еще раз?\nд - Повторить игру\nн - Выйти из игры\n')
+# запрос повторной игры
+repeat_play = input('\nСыграем еще раз?\nд - Повторить игру\nн - Выйти из игры\n')
 if repeat_play.upper() == 'Д':
-    play(get_word())
+    play(*get_word())
