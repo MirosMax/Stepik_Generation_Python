@@ -40,7 +40,7 @@ Sample Output 4:
 '''
 
 
-symbols = 'a b v'.split()
+symbols = '1 2 3 0'.split()
 
 res = [[]]
 
