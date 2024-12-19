@@ -49,3 +49,4 @@ for sym in text:
     for key, value in keys_text.items():
         if sym in value:
             print(key * (value.index(sym) + 1), end='')
+            continue
