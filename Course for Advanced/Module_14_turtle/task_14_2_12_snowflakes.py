@@ -2,14 +2,20 @@ from turtle import *
 import random
 
 
+def random_color_rgb():
+    colors = ()
+    for _ in range(3):
+        colors += (random.randint(0, 255), )
+    return colors
+
+
 def snowflakes(scale, x, y):
     segment = 10 * scale
     speed(10)
     penup()
     goto(x, y)
     pendown()
-    r, g, b = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
-    pencolor(r, g, b)
+    pencolor(random_color_rgb())
     pensize(4)
     for _ in range(8):
         for _ in range(3):
