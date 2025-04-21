@@ -22,9 +22,8 @@ with ZipFile('workbook.zip') as zip_file:
     # size_origin = 0
     # size_compress = 0
     # for file in zip_file.infolist():
-    #     if not file.is_dir():
-    #         size_origin += file.file_size
-    #         size_compress += file.compress_size
+    #     size_origin += file.file_size
+    #     size_compress += file.compress_size
     files = zip_file.infolist()
     size_origin = reduce(lambda a, b: a + b.file_size, files, 0)
     size_compress = reduce(lambda a, b: a + b.compress_size, files, 0)
