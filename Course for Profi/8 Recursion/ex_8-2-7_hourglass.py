@@ -24,4 +24,5 @@ def hourglas(digit=1, width=16, space=0):
         # Низ: после выхода из рекурсии печатаем строку ещё раз
         print(line)
 
+
 hourglas()
