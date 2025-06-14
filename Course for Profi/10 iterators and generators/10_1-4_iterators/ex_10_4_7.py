@@ -16,23 +16,38 @@
 Примечание 4. В тестирующую систему сдайте программу, содержащую только необходимый класс CardDeck.
 '''
 
+# 1 вариант
+# class CardDeck():
+#     def __init__(self):
+#         self.index = -1
+#         suits = ['пик', 'треф', 'бубен', 'червей']
+#         nominals = list(range(2, 11)) + ['валет', 'дама', 'король', 'туз']
+#         self.req = [(n, s) for s in suits for n in nominals]
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         if self.index == 51:
+#             raise StopIteration
+#         else:
+#             self.index += 1
+#             return f'{self.req[self.index][0]} {self.req[self.index][1]}'
 
+
+# 2 вариант (оптимальнее)
 class CardDeck():
     def __init__(self):
-        self.index = -1
         suits = ['пик', 'треф', 'бубен', 'червей']
         nominals = list(range(2, 11)) + ['валет', 'дама', 'король', 'туз']
-        self.req = [(n, s) for s in suits for n in nominals]
+        self.req = iter((n, s) for s in suits for n in nominals)
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.index == 51:
-            raise StopIteration
-        else:
-            self.index += 1
-            return f'{self.req[self.index][0]} {self.req[self.index][1]}'
+        card = next(self.req)
+        return f'{card[0]} {card[1]}'
 
 
 # INPUT DATA:
